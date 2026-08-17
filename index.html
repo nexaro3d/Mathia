@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mathia — Professeur de maths IA</title>
+  <title>Mathia — Ton professeur de maths IA</title>
 
   <style>
     * {
@@ -19,12 +19,12 @@
     }
 
     header {
+      max-width: 1000px;
+      margin: auto;
       padding: 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1100px;
-      margin: auto;
     }
 
     .logo {
@@ -34,20 +34,21 @@
 
     .badge {
       background: #e8edff;
-      padding: 10px 16px;
+      padding: 9px 15px;
       border-radius: 20px;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     main {
       max-width: 850px;
-      margin: 70px auto;
+      margin: 65px auto;
       padding: 20px;
       text-align: center;
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 46px;
+      line-height: 1.15;
       margin-bottom: 18px;
     }
 
@@ -56,23 +57,23 @@
     }
 
     .subtitle {
-      font-size: 19px;
       color: #667085;
-      margin-bottom: 40px;
+      font-size: 18px;
       line-height: 1.5;
+      margin-bottom: 35px;
     }
 
     .buttons {
       display: flex;
-      gap: 16px;
       justify-content: center;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     button {
-      border: none;
-      padding: 17px 24px;
-      border-radius: 15px;
+      border: 0;
+      border-radius: 14px;
+      padding: 16px 22px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
@@ -89,67 +90,48 @@
       border: 1px solid #ddd;
     }
 
-    .exercise-box {
+    .box {
       display: none;
       margin-top: 35px;
       background: white;
       padding: 25px;
       border-radius: 20px;
       text-align: left;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-    }
-
-    .exercise-box h2 {
-      margin-bottom: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
 
     textarea {
       width: 100%;
       min-height: 130px;
+      margin: 15px 0;
       padding: 15px;
       border: 1px solid #ddd;
       border-radius: 12px;
       font-size: 16px;
       resize: vertical;
-      margin-bottom: 15px;
-    }
-
-    input {
-      width: 100%;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 16px;
     }
 
     .answer {
+      margin-top: 20px;
+      padding: 18px;
+      background: #f5f7fb;
+      border-radius: 12px;
+      line-height: 1.7;
       display: none;
-      margin-top: 20px;
-      padding: 18px;
-      background: #f0fdf4;
-      border-radius: 12px;
-      line-height: 1.6;
     }
 
-    .card {
-      margin-top: 55px;
+    .welcome {
+      margin-top: 50px;
       background: white;
-      padding: 28px;
-      border-radius: 22px;
+      padding: 25px;
+      border-radius: 20px;
       text-align: left;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
     }
 
-    .card p {
+    .welcome p {
       color: #667085;
-      line-height: 1.6;
       margin-top: 10px;
-    }
-
-    .result {
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 12px;
       line-height: 1.6;
     }
 
@@ -161,7 +143,7 @@
 
     @media (max-width: 600px) {
       h1 {
-        font-size: 36px;
+        font-size: 35px;
       }
 
       .badge {
@@ -173,403 +155,199 @@
 
 <body>
 
-  <header>
-    <div class="logo">🧠 Mathia</div>
-    <div class="badge">Professeur de maths IA</div>
-  </header>
+<header>
+  <div class="logo">🧠 Mathia</div>
+  <div class="badge">Professeur de maths IA</div>
+</header>
 
-  <main>
+<main>
 
-    <h1>
-      Comprends les maths.<br>
-      <span>Pas seulement la réponse.</span>
-    </h1>
+  <h1>
+    Comprends les maths.<br>
+    <span>Pas seulement la réponse.</span>
+  </h1>
 
-    <p class="subtitle">
-      Ton professeur de maths personnel, disponible quand tu en as besoin.
+  <p class="subtitle">
+    Ton professeur de maths personnel, disponible quand tu en as besoin.
+  </p>
+
+  <div class="buttons">
+
+    <button class="primary" onclick="openExercise()">
+      ✍️ Écrire un exercice
+    </button>
+
+    <button class="secondary" onclick="photoSoon()">
+      📸 Prendre une photo
+    </button>
+
+    <button class="secondary" onclick="trainingSoon()">
+      🎯 M'entraîner
+    </button>
+
+  </div>
+
+
+  <div class="box" id="exerciseBox">
+
+    <h2>✍️ Ton exercice</h2>
+
+    <p style="color:#667085;margin-top:8px;">
+      Écris ton exercice et Mathia va essayer de t'aider.
     </p>
 
-    <div class="buttons">
+    <textarea
+      id="exercise"
+      placeholder="Exemple : Résous 2x + 5 = 15"
+    ></textarea>
 
-      <button class="primary" onclick="ouvrirExercice()">
-        ✍️ Écrire un exercice
-      </button>
+    <button class="primary" onclick="askMathia()">
+      🧠 Demander à Mathia
+    </button>
 
-      <button class="secondary" onclick="messagePhoto()">
-        📸 Prendre une photo
-      </button>
+    <div class="answer" id="answer"></div>
 
-      <button class="secondary" onclick="ouvrirEntrainement()">
-        🎯 M'entraîner
-      </button>
-
-    </div>
+  </div>
 
 
-    <!-- ÉCRIRE UN EXERCICE -->
+  <div class="welcome">
 
-    <div class="exercise-box" id="exerciseBox">
+    <h2>👋 Bienvenue sur Mathia</h2>
 
-      <h2>✍️ Ton exercice</h2>
+    <p>
+      Mathia est ton professeur de maths IA.
+      Son objectif est de t'aider à comprendre
+      les étapes, pas seulement de te donner une réponse.
+    </p>
 
-      <p style="color:#667085; margin-bottom:15px;">
-        Écris ton exercice ci-dessous.
-      </p>
+  </div>
 
-      <textarea
-        id="exercise"
-        placeholder="Exemple : Résous 2x + 5 = 15">
-      </textarea>
+</main>
 
-      <button
-        class="primary"
-        onclick="analyserExercice()">
-        🧠 Demander à Mathia
-      </button>
-
-      <div class="answer" id="answer"></div>
-
-    </div>
+<footer>
+  Mathia — Apprendre les maths autrement.
+</footer>
 
 
-    <!-- MODE ENTRAÎNEMENT -->
+<script>
 
-    <div class="exercise-box" id="trainingBox">
+  function openExercise() {
 
-      <h2>🎯 Mode entraînement</h2>
+    const box = document.getElementById("exerciseBox");
 
-      <p style="color:#667085; margin-bottom:20px;">
-        Choisis ton niveau :
-      </p>
+    box.style.display = "block";
 
-      <div class="buttons">
+    document.getElementById("exercise").focus();
 
-        <button
-          class="primary"
-          onclick="nouvelExercice('facile')">
-          🟢 Facile
-        </button>
-
-        <button
-          class="secondary"
-          onclick="nouvelExercice('moyen')">
-          🟡 Moyen
-        </button>
-
-        <button
-          class="secondary"
-          onclick="nouvelExercice('difficile')">
-          🔴 Difficile
-        </button>
-
-      </div>
-
-      <div
-        id="trainingExercise"
-        style="margin-top:25px;">
-      </div>
-
-    </div>
+    box.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+  }
 
 
-    <!-- BIENVENUE -->
+  async function askMathia() {
 
-    <div class="card">
+    const exercise =
+      document.getElementById("exercise").value.trim();
 
-      <h2>👋 Bienvenue sur Mathia</h2>
-
-      <p>
-        Écris un exercice et Mathia t'aidera à comprendre
-        la méthode étape par étape.
-      </p>
-
-    </div>
-
-  </main>
+    const answer =
+      document.getElementById("answer");
 
 
-  <footer>
-    Mathia — Apprendre les maths autrement.
-  </footer>
-
-
-  <script>
-
-    /* =========================
-       ÉCRIRE UN EXERCICE
-    ========================= */
-
-    function ouvrirExercice() {
-
-      document.getElementById("exerciseBox").style.display = "block";
-
-      document.getElementById("trainingBox").style.display = "none";
-
-      document.getElementById("exercise").focus();
-
-      window.scrollTo({
-        top: document.getElementById("exerciseBox").offsetTop - 30,
-        behavior: "smooth"
-      });
-    }
-
-
-    /*
-      VRAIE CONNEXION À NOTRE SERVEUR IA
-    */
-
-    async function analyserExercice() {
-
-      const exercice =
-        document.getElementById("exercise").value.trim();
-
-      const answer =
-        document.getElementById("answer");
-
-
-      if (exercice === "") {
-
-        answer.style.display = "block";
-
-        answer.innerHTML =
-          "✏️ Écris d'abord ton exercice.";
-
-        return;
-      }
-
+    if (!exercise) {
 
       answer.style.display = "block";
 
-      answer.innerHTML =
-        "🧠 Mathia réfléchit...";
+      answer.textContent =
+        "✏️ Écris d'abord ton exercice.";
 
-
-      try {
-
-        const response = await fetch("/api/chat", {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            exercise: exercice
-          })
-
-        });
-
-
-        const data = await response.json();
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            data.error || "Erreur"
-          );
-
-        }
-
-
-        const safeAnswer =
-          String(data.answer || "")
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/\n/g, "<br>");
-
-
-        answer.innerHTML = `
-
-          <strong>🧠 Mathia :</strong>
-
-          <br><br>
-
-          ${safeAnswer}
-
-        `;
-
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        answer.innerHTML = `
-
-          ❌ Mathia n'arrive pas à répondre pour le moment.
-
-          <br><br>
-
-          Vérifie la configuration du serveur.
-
-        `;
-
-      }
-
+      return;
     }
 
 
-    /* =========================
-       MODE ENTRAÎNEMENT
-    ========================= */
+    answer.style.display = "block";
 
-    function ouvrirEntrainement() {
+    answer.textContent =
+      "🧠 Mathia réfléchit...";
 
-      document.getElementById("trainingBox").style.display = "block";
 
-      document.getElementById("exerciseBox").style.display = "none";
+    try {
 
-      window.scrollTo({
-        top: document.getElementById("trainingBox").offsetTop - 30,
-        behavior: "smooth"
+      const response = await fetch("/api/chat", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          exercise: exercise
+        })
+
       });
-    }
 
 
-    function nouvelExercice(niveau) {
-
-      const zone =
-        document.getElementById("trainingExercise");
-
-      let exercice = "";
+      const data = await response.json();
 
 
-      if (niveau === "facile") {
-
-        exercice = "Résous : 2x + 6 = 14";
-
+      if (!response.ok) {
+        throw new Error(data.error || "Erreur serveur");
       }
 
 
-      if (niveau === "moyen") {
-
-        exercice = "Résous : 4x - 9 = 23";
-
-      }
+      answer.innerHTML = "";
 
 
-      if (niveau === "difficile") {
+      const title = document.createElement("strong");
 
-        exercice = "Résous : 3(2x - 4) + 5 = 23";
+      title.textContent = "🧠 Mathia :";
 
-      }
+      answer.appendChild(title);
 
-
-      zone.innerHTML = `
-
-        <div class="card" style="margin-top:0;">
-
-          <h2>🧮 ${exercice}</h2>
-
-          <input
-            id="trainingAnswer"
-            type="text"
-            placeholder="Ta réponse..."
-          >
-
-          <button
-            class="primary"
-            onclick="verifierReponse('${niveau}')"
-            style="margin-top:15px;">
-
-            Vérifier
-
-          </button>
-
-          <div
-            id="trainingResult"
-            class="result">
-          </div>
-
-        </div>
-
-      `;
-
-    }
-
-
-    function verifierReponse(niveau) {
-
-      const reponse =
-        document
-          .getElementById("trainingAnswer")
-          .value
-          .trim();
-
-
-      const result =
-        document.getElementById("trainingResult");
-
-
-      let bonneReponse = "";
-
-
-      if (niveau === "facile") {
-        bonneReponse = "4";
-      }
-
-      if (niveau === "moyen") {
-        bonneReponse = "8";
-      }
-
-      if (niveau === "difficile") {
-        bonneReponse = "5";
-      }
-
-
-      if (reponse === bonneReponse) {
-
-        result.style.background = "#f0fdf4";
-
-        result.innerHTML = `
-
-          🎉 <strong>Bravo !</strong>
-
-          <br>
-
-          Bonne réponse.
-
-          <br>
-
-          ⭐ +10 XP
-
-        `;
-
-      } else {
-
-        result.style.background = "#fff7ed";
-
-        result.innerHTML = `
-
-          💡 <strong>Pas encore !</strong>
-
-          <br>
-
-          Relis l'équation et essaie encore.
-
-        `;
-
-      }
-
-    }
-
-
-    /* =========================
-       PHOTO
-    ========================= */
-
-    function messagePhoto() {
-
-      alert(
-        "📸 La fonction photo arrive bientôt !"
+      answer.appendChild(
+        document.createElement("br")
       );
 
+      answer.appendChild(
+        document.createElement("br")
+      );
+
+
+      const text = document.createElement("div");
+
+      text.textContent = data.answer || "Aucune réponse.";
+
+      answer.appendChild(text);
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      answer.textContent =
+        "❌ Mathia n'arrive pas à répondre pour le moment. Vérifie la configuration de l'IA.";
+
     }
 
-  </script>
+  }
+
+
+  function photoSoon() {
+
+    alert("📸 La fonction photo arrive bientôt !");
+
+  }
+
+
+  function trainingSoon() {
+
+    alert("🎯 Le mode entraînement arrive bientôt !");
+
+  }
+
+</script>
 
 </body>
 </html>
