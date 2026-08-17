@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Mathia — Professeur de maths IA</title>
 
   <style>
@@ -114,6 +115,14 @@
       margin-bottom: 15px;
     }
 
+    input {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+    }
+
     .answer {
       display: none;
       margin-top: 20px;
@@ -138,6 +147,13 @@
       margin-top: 10px;
     }
 
+    .result {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 12px;
+      line-height: 1.6;
+    }
+
     footer {
       text-align: center;
       color: #98a2b3;
@@ -160,7 +176,10 @@
 
   <header>
     <div class="logo">🧠 Mathia</div>
-    <div class="badge">Professeur de maths IA</div>
+
+    <div class="badge">
+      Professeur de maths IA
+    </div>
   </header>
 
   <main>
@@ -175,20 +194,33 @@
     </p>
 
     <div class="buttons">
-      <button class="primary" onclick="ouvrirExercice()">
+
+      <button
+        class="primary"
+        onclick="ouvrirExercice()">
         ✍️ Écrire un exercice
       </button>
 
-      <button class="secondary" onclick="messagePhoto()">
+      <button
+        class="secondary"
+        onclick="messagePhoto()">
         📸 Prendre une photo
       </button>
 
-      <button class="secondary" onclick="messageEntrainement()">
+      <button
+        class="secondary"
+        onclick="ouvrirEntrainement()">
         🎯 M'entraîner
       </button>
+
     </div>
 
-    <div class="exercise-box" id="exerciseBox">
+
+    <!-- ÉCRIRE UN EXERCICE -->
+
+    <div
+      class="exercise-box"
+      id="exerciseBox">
 
       <h2>✍️ Ton exercice</h2>
 
@@ -201,72 +233,341 @@
         placeholder="Exemple : Résous 2x + 5 = 15">
       </textarea>
 
-      <button class="primary" onclick="analyserExercice()">
+      <button
+        class="primary"
+        onclick="analyserExercice()">
+
         🧠 Demander à Mathia
+
       </button>
 
-      <div class="answer" id="answer"></div>
+      <div
+        class="answer"
+        id="answer">
+      </div>
 
     </div>
 
+
+    <!-- MODE ENTRAÎNEMENT -->
+
+    <div
+      class="exercise-box"
+      id="trainingBox">
+
+      <h2>🎯 Mode entraînement</h2>
+
+      <p style="color:#667085; margin-bottom:20px;">
+        Choisis ton niveau :
+      </p>
+
+      <div class="buttons">
+
+        <button
+          class="primary"
+          onclick="nouvelExercice('facile')">
+
+          🟢 Facile
+
+        </button>
+
+        <button
+          class="secondary"
+          onclick="nouvelExercice('moyen')">
+
+          🟡 Moyen
+
+        </button>
+
+        <button
+          class="secondary"
+          onclick="nouvelExercice('difficile')">
+
+          🔴 Difficile
+
+        </button>
+
+      </div>
+
+      <div
+        id="trainingExercise"
+        style="margin-top:25px;">
+      </div>
+
+    </div>
+
+
+    <!-- CARTE DE BIENVENUE -->
+
     <div class="card">
+
       <h2>👋 Bienvenue sur Mathia</h2>
+
       <p>
         Écris un exercice et Mathia t'aidera à comprendre
         la méthode étape par étape.
       </p>
+
     </div>
 
   </main>
+
 
   <footer>
     Mathia — Apprendre les maths autrement.
   </footer>
 
+
   <script>
 
+    /* =========================
+       ÉCRIRE UN EXERCICE
+    ========================= */
+
     function ouvrirExercice() {
+
       document.getElementById("exerciseBox").style.display = "block";
+
+      document.getElementById("trainingBox").style.display = "none";
 
       document.getElementById("exercise").focus();
 
       window.scrollTo({
-        top: document.getElementById("exerciseBox").offsetTop - 30,
+        top:
+          document.getElementById("exerciseBox").offsetTop - 30,
         behavior: "smooth"
       });
     }
 
+
     function analyserExercice() {
 
-      const exercice = document.getElementById("exercise").value.trim();
-      const answer = document.getElementById("answer");
+      const exercice =
+        document.getElementById("exercise").value.trim();
+
+      const answer =
+        document.getElementById("answer");
+
 
       if (exercice === "") {
+
         answer.style.display = "block";
-        answer.innerHTML = "✏️ Écris d'abord ton exercice.";
+
+        answer.innerHTML =
+          "✏️ Écris d'abord ton exercice.";
+
         return;
       }
 
+
       answer.style.display = "block";
 
+
       answer.innerHTML = `
-        <strong>🧠 Mathia :</strong><br><br>
-        J'ai bien reçu ton exercice !<br><br>
-        <strong>Ton exercice :</strong><br>
-        ${exercice.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+
+        <strong>🧠 Mathia :</strong>
+
         <br><br>
-        🤖 Mon intelligence artificielle sera bientôt connectée
-        pour analyser cet exercice et t'expliquer la solution
-        étape par étape.
+
+        J'ai bien reçu ton exercice !
+
+        <br><br>
+
+        <strong>Ton exercice :</strong>
+
+        <br>
+
+        ${exercice
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+        }
+
+        <br><br>
+
+        🤖 L'intelligence artificielle sera bientôt
+        connectée pour analyser ton exercice et
+        t'expliquer la solution étape par étape.
+
       `;
     }
 
-    function messagePhoto() {
-      alert("📸 La fonction photo arrive bientôt !");
+
+    /* =========================
+       MODE ENTRAÎNEMENT
+    ========================= */
+
+    function ouvrirEntrainement() {
+
+      document.getElementById("trainingBox").style.display = "block";
+
+      document.getElementById("exerciseBox").style.display = "none";
+
+      window.scrollTo({
+        top:
+          document.getElementById("trainingBox").offsetTop - 30,
+        behavior: "smooth"
+      });
     }
 
-    function messageEntrainement() {
-      alert("🎯 Le mode entraînement arrive bientôt !");
+
+    function nouvelExercice(niveau) {
+
+      const zone =
+        document.getElementById("trainingExercise");
+
+
+      let exercice = "";
+
+
+      if (niveau === "facile") {
+
+        exercice =
+          "Résous : 2x + 6 = 14";
+
+      }
+
+
+      if (niveau === "moyen") {
+
+        exercice =
+          "Résous : 4x - 9 = 23";
+
+      }
+
+
+      if (niveau === "difficile") {
+
+        exercice =
+          "Résous : 3(2x - 4) + 5 = 23";
+
+      }
+
+
+      zone.innerHTML = `
+
+        <div
+          class="card"
+          style="margin-top:0;">
+
+          <h2>
+            🧮 ${exercice}
+          </h2>
+
+
+          <input
+            id="trainingAnswer"
+            type="text"
+            placeholder="Ta réponse..."
+          >
+
+
+          <button
+            class="primary"
+            onclick="verifierReponse('${niveau}')"
+            style="margin-top:15px;">
+
+            Vérifier
+
+          </button>
+
+
+          <div
+            id="trainingResult"
+            class="result">
+          </div>
+
+        </div>
+
+      `;
+    }
+
+
+    function verifierReponse(niveau) {
+
+      const reponse =
+        document
+          .getElementById("trainingAnswer")
+          .value
+          .trim();
+
+
+      const result =
+        document.getElementById("trainingResult");
+
+
+      let bonneReponse = "";
+
+
+      if (niveau === "facile") {
+
+        bonneReponse = "4";
+
+      }
+
+
+      if (niveau === "moyen") {
+
+        bonneReponse = "8";
+
+      }
+
+
+      if (niveau === "difficile") {
+
+        bonneReponse = "5";
+
+      }
+
+
+      if (reponse === bonneReponse) {
+
+        result.style.background = "#f0fdf4";
+
+
+        result.innerHTML = `
+
+          🎉 <strong>Bravo !</strong>
+
+          <br>
+
+          Bonne réponse.
+
+          <br>
+
+          ⭐ +10 XP
+
+        `;
+
+      } else {
+
+        result.style.background = "#fff7ed";
+
+
+        result.innerHTML = `
+
+          💡 <strong>Pas encore !</strong>
+
+          <br>
+
+          Relis l'équation et essaie encore.
+
+        `;
+
+      }
+
+    }
+
+
+    /* =========================
+       AUTRES BOUTONS
+    ========================= */
+
+    function messagePhoto() {
+
+      alert(
+        "📸 La fonction photo arrive bientôt !"
+      );
+
     }
 
   </script>
