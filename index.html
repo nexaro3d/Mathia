@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mathia — Ton professeur de maths IA</title>
+  <title>Mathia — Professeur de maths IA</title>
 
   <style>
     * {
@@ -28,19 +28,19 @@
     }
 
     .logo {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: bold;
     }
 
     .badge {
       background: #e8edff;
-      padding: 8px 14px;
+      padding: 10px 16px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 14px;
     }
 
     main {
-      max-width: 900px;
+      max-width: 850px;
       margin: 70px auto;
       padding: 20px;
       text-align: center;
@@ -59,6 +59,7 @@
       font-size: 19px;
       color: #667085;
       margin-bottom: 40px;
+      line-height: 1.5;
     }
 
     .buttons {
@@ -70,8 +71,8 @@
 
     button {
       border: none;
-      padding: 16px 24px;
-      border-radius: 14px;
+      padding: 17px 24px;
+      border-radius: 15px;
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
@@ -88,6 +89,40 @@
       border: 1px solid #ddd;
     }
 
+    .exercise-box {
+      display: none;
+      margin-top: 35px;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      text-align: left;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .exercise-box h2 {
+      margin-bottom: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 130px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      resize: vertical;
+      margin-bottom: 15px;
+    }
+
+    .answer {
+      display: none;
+      margin-top: 20px;
+      padding: 18px;
+      background: #f0fdf4;
+      border-radius: 12px;
+      line-height: 1.6;
+    }
+
     .card {
       margin-top: 55px;
       background: white;
@@ -97,13 +132,10 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.06);
     }
 
-    .card h2 {
-      margin-bottom: 12px;
-    }
-
     .card p {
       color: #667085;
       line-height: 1.6;
+      margin-top: 10px;
     }
 
     footer {
@@ -115,6 +147,10 @@
     @media (max-width: 600px) {
       h1 {
         font-size: 36px;
+      }
+
+      .badge {
+        display: none;
       }
     }
   </style>
@@ -129,24 +165,55 @@
 
   <main>
 
-    <h1>Comprends les maths.<br><span>Pas seulement la réponse.</span></h1>
+    <h1>
+      Comprends les maths.<br>
+      <span>Pas seulement la réponse.</span>
+    </h1>
 
     <p class="subtitle">
       Ton professeur de maths personnel, disponible quand tu en as besoin.
     </p>
 
     <div class="buttons">
-      <button class="primary">📸 Prendre une photo</button>
-      <button class="secondary">✍️ Écrire un exercice</button>
-      <button class="secondary">🎯 M'entraîner</button>
+      <button class="primary" onclick="ouvrirExercice()">
+        ✍️ Écrire un exercice
+      </button>
+
+      <button class="secondary" onclick="messagePhoto()">
+        📸 Prendre une photo
+      </button>
+
+      <button class="secondary" onclick="messageEntrainement()">
+        🎯 M'entraîner
+      </button>
+    </div>
+
+    <div class="exercise-box" id="exerciseBox">
+
+      <h2>✍️ Ton exercice</h2>
+
+      <p style="color:#667085; margin-bottom:15px;">
+        Écris ton exercice ci-dessous.
+      </p>
+
+      <textarea
+        id="exercise"
+        placeholder="Exemple : Résous 2x + 5 = 15">
+      </textarea>
+
+      <button class="primary" onclick="analyserExercice()">
+        🧠 Demander à Mathia
+      </button>
+
+      <div class="answer" id="answer"></div>
+
     </div>
 
     <div class="card">
       <h2>👋 Bienvenue sur Mathia</h2>
       <p>
-        Envoie un exercice et Mathia t'aidera à le comprendre
-        étape par étape, puis te donnera des exercices adaptés
-        à ton niveau.
+        Écris un exercice et Mathia t'aidera à comprendre
+        la méthode étape par étape.
       </p>
     </div>
 
@@ -155,6 +222,54 @@
   <footer>
     Mathia — Apprendre les maths autrement.
   </footer>
+
+  <script>
+
+    function ouvrirExercice() {
+      document.getElementById("exerciseBox").style.display = "block";
+
+      document.getElementById("exercise").focus();
+
+      window.scrollTo({
+        top: document.getElementById("exerciseBox").offsetTop - 30,
+        behavior: "smooth"
+      });
+    }
+
+    function analyserExercice() {
+
+      const exercice = document.getElementById("exercise").value.trim();
+      const answer = document.getElementById("answer");
+
+      if (exercice === "") {
+        answer.style.display = "block";
+        answer.innerHTML = "✏️ Écris d'abord ton exercice.";
+        return;
+      }
+
+      answer.style.display = "block";
+
+      answer.innerHTML = `
+        <strong>🧠 Mathia :</strong><br><br>
+        J'ai bien reçu ton exercice !<br><br>
+        <strong>Ton exercice :</strong><br>
+        ${exercice.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+        <br><br>
+        🤖 Mon intelligence artificielle sera bientôt connectée
+        pour analyser cet exercice et t'expliquer la solution
+        étape par étape.
+      `;
+    }
+
+    function messagePhoto() {
+      alert("📸 La fonction photo arrive bientôt !");
+    }
+
+    function messageEntrainement() {
+      alert("🎯 Le mode entraînement arrive bientôt !");
+    }
+
+  </script>
 
 </body>
 </html>
